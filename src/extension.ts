@@ -1,7 +1,4 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import { exec } from 'child_process';
-import { format } from 'util';
+import { spawnSync } from 'child_process';
 import * as vscode from 'vscode';
 
 // This method is called when your extension is activated
@@ -13,26 +10,30 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "racket-fmt" is now active!');
 
 
-	// 👍 formatter implemented using API
-	let disposable = vscode.languages.registerDocumentFormattingEditProvider('racket', {
+	// whole formatter implemented using API
+	let registerFormatter = vscode.languages.registerDocumentFormattingEditProvider('racket', {
 		provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.ProviderResult<vscode.TextEdit[]> {
-			console.log("start");
-			console.log(document.getText());
-			console.log("end");
-
-			exec(format('echo \"%s\" | raco fmt', document.getText()), (error, stdout, stderr) => {
-				if (error) {
-					console.error(`exec error: ${error}`);
-					return;
-				}
-				console.log(`stdout: ${stdout}`);
-				console.error(`stderr: ${stderr}`);
-			});
-			return [vscode.TextEdit.insert(document.lineAt(0).range.start, '42\n')];
+			let result = spawnSync('raco', ['fmt'], { 'input': document.getText() });
+			let start = document.positionAt(0);
+			let end = document.positionAt(document.getText().length);
+			let formatted = result.stdout.toString();
+			return [vscode.TextEdit.replace(new vscode.Range(start, end), formatted)];
 		}
 	});
 
-	context.subscriptions.push(disposable);
+	// range formatter implemented using API
+	let registerRangeFormatter = vscode.languages.registerDocumentRangeFormattingEditProvider('racket', {
+		provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range): vscode.ProviderResult<vscode.TextEdit[]> {
+			let start = document.offsetAt(range.start);
+			let end = document.offsetAt(range.end);
+			let result = spawnSync('raco', ['fmt'], { 'input': document.getText().substring(start, end) });
+			let formatted = result.stdout.toString();
+			return [vscode.TextEdit.replace(range, formatted)];
+		}
+	});
+
+	context.subscriptions.push(registerFormatter);
+	context.subscriptions.push(registerRangeFormatter);
 }
 
 // This method is called when your extension is deactivated
