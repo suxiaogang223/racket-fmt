@@ -17,7 +17,7 @@
   "description": "racket formatter powered by 'raco fmt'",
   "icon": "images/icon.png",
   "engines": {
-    "vscode": "^1.59.0"
+    "vscode": "^1.72.0"
   },
   "categories": [
     "Formatters"
@@ -31,7 +31,19 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": []
+    "commands": [],
+    "languages": [
+      {
+        "id": "racket",
+        "aliases": [
+          "Racket",
+          "racket"
+        ],
+        "extensions": [
+          ".rkt"
+        ]
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
