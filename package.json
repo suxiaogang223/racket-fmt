@@ -1,13 +1,17 @@
 {
   "name": "racket-fmt",
+  "publisher": "lishizhen",
   "displayName": "racket-fmt",
-  "description": "",
+  "repository": {
+    "url": "https://github.com/LiShiZhensPi/racket-fmt"
+  },
+  "description": "racket formatter powered by 'raco fmt'",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.72.0"
   },
   "categories": [
-    "Other"
+    "Formatters"
   ],
   "activationEvents": [
     "onLanguage:racket"
