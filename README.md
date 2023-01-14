@@ -1,12 +1,14 @@
 # racket-fmt
 
-racket formatter powered by 'raco fmt'
+**racket formatter powered by 'raco fmt'**
 
-## Features
+You should install `fmt` before using this extension.
+```
+raco pkg install fmt
+```
 
-## Requirements
-
-You should execute `raco pkg install fmt` first before using this extension.
+Thanks to
+https://docs.racket-lang.org/fmt/
 
 Suggest you install **Magic Racket**, the best extension for racket!
 
