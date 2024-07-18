@@ -1,18 +1,18 @@
 {
   "name": "racket-fmt",
-  "version": "0.0.4",
-  "publisher": "lishizhen",
+  "version": "0.0.5",
+  "publisher": "suxiaogang",
   "author": {
-    "name": "苏小刚",
-    "email": "540726169@qq.com",
-    "url": "https://github.com/LiShiZhensPi"
+    "name": "suxiaogang223",
+    "email": "suxiaogang223@icloud.com",
+    "url": "https://github.com/suxiaogang223"
   },
   "displayName": "racket-fmt",
   "licence": "SEE LICENSE IN LICENSE",
-  "homepage": "https://github.com/LiShiZhensPi/racket-fmt",
+  "homepage": "https://github.com/suxiaogang223/racket-fmt",
   "repository": {
     "type": "github",
-    "url": "https://github.com/LiShiZhensPi/racket-fmt"
+    "url": "https://github.com/suxiaogang223/racket-fmt"
   },
   "description": "racket formatter powered by 'raco fmt'",
   "icon": "images/icon.png",
