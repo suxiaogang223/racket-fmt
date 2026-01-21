@@ -9,11 +9,18 @@ export function activate(context: vscode.ExtensionContext) {
 	let registerFormatter = vscode.languages.registerDocumentFormattingEditProvider('racket', {
 		provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.ProviderResult<vscode.TextEdit[]> {
 			const original = document.getText();
+
 			let result = spawnSync('raco', ['fmt'], { 'input': original });
-			let start = document.positionAt(0);
-			let end = document.positionAt(original.length);
 			let formatted = result.stdout.toString();
-			return [vscode.TextEdit.replace(new vscode.Range(start, end), formatted === '' ? original : formatted)];
+			if (formatted === '') {
+				return [];
+			}
+
+			// Get the full document range
+			const lastLine = document.lineAt(document.lineCount - 1);
+			const range = new vscode.Range(0, 0, lastLine.lineNumber, lastLine.text.length);
+
+			return [vscode.TextEdit.replace(range, formatted)];
 		}
 	});
 
@@ -23,9 +30,14 @@ export function activate(context: vscode.ExtensionContext) {
 			let start = document.offsetAt(range.start);
 			let end = document.offsetAt(range.end);
 			const original = document.getText().substring(start, end);
+
 			let result = spawnSync('raco', ['fmt'], { 'input': original });
 			let formatted = result.stdout.toString();
-			return [vscode.TextEdit.replace(range, formatted === '' ? original : formatted)];
+			if (formatted === '') {
+				return [];
+			}
+
+			return [vscode.TextEdit.replace(range, formatted)];
 		}
 	});
 
